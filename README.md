@@ -1,13 +1,15 @@
 # Network graphs
 > D3 wrapper for visualizing CSV data as a network graph
 
-Creates an animated network graph in the browser, consisting of nodes with connecting arrows, text labels and color. The nodes are force-directed i.e. they respond to clicking and dragging mouse actions.
+Create an animated network graph in the browser, consisting of nodes with connecting arrows, text labels and color. The nodes are force-directed i.e. they respond to clicking and dragging mouse actions.
+
+See the project hosted here, using Github Pages: https://michaelcurrin.github.io/network-graphs/ .
 
 ## Purpose
 
-I have a couple of personal projects which have data which is great for making network graphs. But that kind of graph is not found in the dashboard tools I've used. There is one in Google Fusion Tables which reads CSV data and can be easily customized - unfortunately Google is retiring that system.
+I've built this project as a wrapper on the D3 library which allows me to easily point to a CSV dataset, configure some parameters and then show the visualization in the browser.
 
-So I've built my wrapper on the D3 library which allows me to easily point to a CSV dataset, configure some parameters and then show the visualization in the browser.
+The reason I made it is that I have a couple of personal projects which have data which is ideal for making network graphs. But this type of graph is not often found in the dashboard tools I've used. Although there is one in Google Fusion Tables which reads CSV data and can be easily configured, unfortunately Google is retiring that system.
 
 ## Usage
 
