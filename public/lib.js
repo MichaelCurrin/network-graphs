@@ -46,7 +46,27 @@ function tick(edges, nodes, nodelabels, edgepaths) {
 }
 
 
-/** Render network graph in target SVG using specified dataset. **/
+/**
+ * Render network graph in target SVG using specified dataset.
+ *
+ * @param {Object} dataset The expected structure is detailed below. There can be any number of
+ *      elements in the nodes and edges arrays.
+ *     {
+ *          nodes: [
+ *              {
+ *                  name: String
+ *              },
+ *              ...
+ *          ],
+ *          edges [
+ *              {
+ *                  source: Numeric   // Index of element in nodes array.
+ *                  target: Numeric   // As above.
+ *              },
+ *              ...
+ *          ]
+ *     }
+ */
 function draw(dataset) {
     var svg = d3.select("body").append("svg");
     svg.attr({
@@ -125,6 +145,11 @@ function draw(dataset) {
  * Read a CSV with source and destination columns and convert to dataset with keys as edges
  * and nodes. A name may be repeated across the source or target columns but will appear
  * as a unique name in the nodes data. The edges data contains references to IDs in the nodes array.
+ *
+ * @param {String} filePath Name of CSV file with header to read in. Must have the following
+ *      columns and any number of rows:
+ *          source
+ *          target
  */
 function csv(filePath) {
     return new Promise(function (resolve) {
@@ -156,7 +181,3 @@ function csv(filePath) {
         })
     })
 }
-
-
-csv("/sample.csv")
-    .then(dataset => draw(dataset));
