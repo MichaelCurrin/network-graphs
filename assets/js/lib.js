@@ -139,6 +139,27 @@ function draw(dataset) {
 }
 
 
+/** Expect links, get unique names and return as nodes. Also updates links object passed in by reference. **/
+function toNodes(links) {
+    var nodesByName = {};
+
+    links.forEach(function (link) {
+        link.source = nodeByName(link.source);
+        link.target = nodeByName(link.target);
+    });
+
+    function nodeByName(name) {
+        return nodesByName[name] || (nodesByName[name] = {
+            name: name
+        });
+    }
+
+    var nodes = d3.values(nodesByName);
+
+    return nodes;
+}
+
+
 /**
  * Convert CSV data to a dataset containing nodes and edges.
  *
@@ -153,26 +174,12 @@ function draw(dataset) {
  */
 function csv(filePath) {
     return new Promise(function (resolve) {
-        var nodesByName = {};
 
         d3.csv(filePath, function (error, links) {
             if (error)
                 throw error;
 
-
-            links.forEach(function (link) {
-                link.source = nodeByName(link.source);
-                link.target = nodeByName(link.target);
-            });
-
-            function nodeByName(name) {
-                return nodesByName[name] || (nodesByName[name] = {
-                    name: name
-                });
-            }
-
-            var nodes = d3.values(nodesByName);
-
+            var nodes = toNodes(links);
             var dataset = {
                 nodes: nodes,
                 edges: links
