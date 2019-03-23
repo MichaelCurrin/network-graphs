@@ -1,3 +1,3 @@
-var filePath = "/sample/data.csv";
+var filePath = "assets/data/sample.csv";
 csv(filePath)
     .then(draw);
