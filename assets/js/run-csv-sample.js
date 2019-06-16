@@ -1,3 +1,3 @@
 var filePath = "assets/data/sample.csv";
 csv(filePath)
-    .then(draw);
+    .then(d => draw(d, true));
