@@ -4,6 +4,10 @@
 const w = 1280;
 const h = 720;
 const linkDistance = 10;
+const COLORS = {
+    source: '#08c',
+    target: '#ffa11c',
+};
 
 
 /** Handle object movement. **/
@@ -62,8 +66,12 @@ function tick(edges, nodes, nodelabels, edgepaths) {
  *              ...
  *          ]
  *     }
+ * @param {boolean} twoColor If true, after applying the configured source
+ *     color to all nodes, repaint the target nodes with the target color.
+ *     This works best if the source and target are different types of objects
+ *     e.g. people and places.
  */
-function draw(dataset) {
+function draw(dataset, twoColor = false) {
     var svg = d3.select("body").append("svg");
     svg.attr({
         "width": w,
@@ -95,9 +103,13 @@ function draw(dataset) {
         .data(dataset.nodes)
         .enter()
         .append("circle")
-        .style("fill", '#08c')
         .call(force.drag)
-        .attr("r", 8);
+        .attr("r", 8)
+        .style("fill", COLORS.source);
+    if (twoColor) {
+        nodes.filter(n => n.type === 'target')
+            .style("fill", COLORS.target);
+    }
 
     var nodelabels = svg.selectAll(".nodelabel")
         .data(dataset.nodes)
