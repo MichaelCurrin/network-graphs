@@ -60,8 +60,8 @@ function tick(edges, nodes, nodelabels, edgepaths) {
  *          ],
  *          edges [
  *              {
- *                  source: Numeric   // Index of element in nodes array.
- *                  target: Numeric   // As above.
+ *                  source: Number   // Index of element in nodes array.
+ *                  target: Number   // As above.
  *              },
  *              ...
  *          ]
@@ -126,7 +126,7 @@ function draw(dataset) {
         'markerWidth': 10,
         'markerHeight': 10,
         'xoverflow': 'visible',
-    }
+    };
 
     svg.append('defs').append('marker')
         .attr(arrowProperties)
@@ -186,5 +186,5 @@ function csv(filePath) {
             }
             resolve(dataset)
         })
-    })
+    });
 }
