@@ -190,9 +190,8 @@ function toNodes(links) {
  *          target
  */
 function csv(filePath) {
-    return new Promise(function (resolve) {
-
-        d3.csv(filePath, function (error, links) {
+    return new Promise(resolve => {
+        d3.csv(filePath, (error, links) => {
             if (error)
                 throw error;
 
