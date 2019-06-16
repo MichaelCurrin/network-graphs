@@ -153,7 +153,7 @@ function draw(dataset) {
 function toNodes(links) {
     var nodesByName = {};
 
-    /** Attempt to get a value by key otherwise set it with a value. **/
+    /** Get a node value by name if set, otherwise set it with a value. **/
     function getNodeByName(name) {
         return nodesByName[name] || (nodesByName[name] = {
             name: name
