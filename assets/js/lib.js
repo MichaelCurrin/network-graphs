@@ -151,21 +151,29 @@ function draw(dataset) {
  * value as the name taken from a link source and target.
  */
 function toNodes(links) {
-    var nodesByName = {};
+    var nodes = {};
 
-    /** Get a node value by name if set, otherwise set it with a value. **/
-    function getNodeByName(name) {
-        return nodesByName[name] || (nodesByName[name] = {
-            name: name
+    /**
+     * Get a node value by name if set, otherwise set it.
+     *
+     * Note that type will be set initially and if the later type is different it will be ignored.
+     * So nodes which appear in both columns will have an unreliable type, which is fine for
+     * a single color graph of one type of node (e.g. person) but not a two color graph (e.g. person
+     * and message).
+     */
+    function getOrSetNode(name, type) {
+        return nodes[name] || (nodes[name] = {
+            name: name,
+            type: type,
         });
     }
 
     links.forEach(link => {
-        link.source = getNodeByName(link.source);
-        link.target = getNodeByName(link.target);
+        link.source = getOrSetNode(link.source, 'source');
+        link.target = getOrSetNode(link.target, 'target');
     });
 
-    return d3.values(nodesByName);
+    return d3.values(nodes);
 }
 
 
