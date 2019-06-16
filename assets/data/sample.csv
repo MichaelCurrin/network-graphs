@@ -1,8 +1,8 @@
 source,target
-A,B
-A,C
-A,D
-B,C
-E,F
-F,C
-F,H
+person A,place 1
+person A,place 2
+person A,place 3
+person B,place 1
+person C,place 2
+person D,place 1
+person E,place 2
