@@ -139,24 +139,34 @@ function draw(dataset) {
 }
 
 
-/** Expect links, get unique names and return as nodes. Also updates links object passed in by reference. **/
+/**
+ * Convert links to nodes.
+ *
+ * Extract nodes and unique names used across the source and target pairs of
+ * the links.
+ *
+ * The links object passed in by reference is also updated, such that source
+ * or target string on each element is replaced with an associative array.
+ *
+ * Return nodes as an array, where each element is an assocative array with
+ * key as value and value as the name taken from a link source and target.
+ **/
 function toNodes(links) {
     var nodesByName = {};
 
-    links.forEach(function (link) {
-        link.source = nodeByName(link.source);
-        link.target = nodeByName(link.target);
-    });
-
-    function nodeByName(name) {
+    /** Attempt to get a value by key otherwise set it with a value. **/
+    function getNodeByName(name) {
         return nodesByName[name] || (nodesByName[name] = {
             name: name
         });
     }
 
-    var nodes = d3.values(nodesByName);
+    links.forEach(link => {
+        link.source = getNodeByName(link.source);
+        link.target = getNodeByName(link.target);
+    });
 
-    return nodes;
+    return d3.values(nodesByName);
 }
 
 
@@ -183,8 +193,8 @@ function csv(filePath) {
             var dataset = {
                 nodes: nodes,
                 edges: links
-            }
-            resolve(dataset)
+            };
+            resolve(dataset);
         })
     });
 }
