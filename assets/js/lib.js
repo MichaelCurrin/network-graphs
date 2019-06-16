@@ -50,7 +50,7 @@ function tick(edges, nodes, nodelabels, edgepaths) {
  * Render network graph in target SVG using specified dataset.
  *
  * @param {Object} dataset The expected structure is detailed below. There can be any number of
- *      elements in the nodes and edges arrays.
+ *     elements in the nodes and edges arrays.
  *     {
  *          nodes: [
  *              {
@@ -142,15 +142,14 @@ function draw(dataset) {
 /**
  * Convert links to nodes.
  *
- * Extract nodes and unique names used across the source and target pairs of
- * the links.
+ * Extract nodes and unique names used across the source and target pairs of the links.
  *
- * The links object passed in by reference is also updated, such that source
- * or target string on each element is replaced with an associative array.
+ * The links object passed in by reference is also updated, such that source or target string on
+ * each element is replaced with an associative array.
  *
- * Return nodes as an array, where each element is an assocative array with
- * key as value and value as the name taken from a link source and target.
- **/
+ * Return nodes as an array, where each element is an assocative array with key as value and
+ * value as the name taken from a link source and target.
+ */
 function toNodes(links) {
     var nodesByName = {};
 
