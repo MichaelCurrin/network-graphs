@@ -32,12 +32,8 @@ function tick(edges, nodes, nodelabels, edgepaths) {
         }
     });
 
-    nodelabels.attr("x", function (d) {
-            return d.x;
-        })
-        .attr("y", function (d) {
-            return d.y;
-        });
+    nodelabels.attr("x", d => d.x)
+        .attr("y", d => d.y);
 
     edgepaths.attr('d', function (d) {
         var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
