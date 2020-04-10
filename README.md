@@ -12,13 +12,21 @@ I've built this project as a wrapper on the D3 library which allows me to easily
 
 The reason I made it is that I have a couple of personal projects which have data which is ideal for making network graphs. But this type of graph is not often found in the dashboard tools I've used. Although there is one in Google Fusion Tables which reads CSV data and can be easily configured, unfortunately Google is retiring that system.
 
-## Remote setup
+
+## Deploy to remote environment
 
 Fork project.
 
-Setup on Github Pages using `master` and project root.
+Go to Settings of the repo.
 
-## Local development
+Setup on _Github Pages_ using `master` and project root.
+
+Wait for your build to complete in the Environment tab on the repo main page. 
+
+Then click View Deployment.
+
+
+## Run locally
 
 ### Installation
 
@@ -30,8 +38,10 @@ There are no dependencies to install.
 
 Start a server in the root of the project.
 
-```bash
-$ bin/serve.sh
+If you have Python 3 installed, that's a good choice. Here's a shortcut, using [Makefile](/Makefile).
+
+```sh
+make serve
 ```
 
 
@@ -39,5 +49,5 @@ $ bin/serve.sh
 
 I found these code samples and they have been extremely useful.
 
-- Force-directed graph with arrows http://bl.ocks.org/jhb/5955887
-- Process CSV data https://bl.ocks.org/mbostock/2949937
+- [Force-directed graph with arrows](http://bl.ocks.org/jhb/5955887)
+- [Process CSV data](https://bl.ocks.org/mbostock/2949937)
