@@ -51,3 +51,8 @@ I found these code samples and they have been extremely useful.
 
 - [Force-directed graph with arrows](http://bl.ocks.org/jhb/5955887)
 - [Process CSV data](https://bl.ocks.org/mbostock/2949937)
+
+
+## License
+
+Released under [MIT](/LICENSE).
