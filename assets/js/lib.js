@@ -1,14 +1,14 @@
 /**
  * Main network graphing script.
  */
-const w = 1280;
-const h = 720;
-const linkDistance = 10;
-const COLORS = {
-    source: '#08c',
-    target: '#ffa11c',
-};
-
+const w = 1280,
+    h = 720,
+    LINK_DISTANCE = 70,
+    LABEL_OFFSET = 15,
+    COLORS = {
+        source: '#08c',
+        target: '#ffa11c',
+    };
 
 /** Handle object movement. **/
 function tick(edges, nodes, nodelabels, edgepaths) {
@@ -36,7 +36,7 @@ function tick(edges, nodes, nodelabels, edgepaths) {
         }
     });
 
-    nodelabels.attr("x", d => d.x)
+    nodelabels.attr("x", d => d.x + LABEL_OFFSET)
         .attr("y", d => d.y);
 
     edgepaths.attr('d', function (d) {
@@ -66,7 +66,7 @@ function tick(edges, nodes, nodelabels, edgepaths) {
  *              ...
  *          ]
  *     }
- * @param {boolean} twoColor If true, after applying the configured source
+ * @param {Boolean} twoColor If true, after applying the configured source
  *     color to all nodes, repaint the target nodes with the target color.
  *     This works best if the source and target are different types of objects
  *     e.g. people and places.
@@ -82,7 +82,7 @@ function draw(dataset, twoColor = false) {
         .nodes(dataset.nodes)
         .links(dataset.edges)
         .size([w, h])
-        .linkDistance([linkDistance])
+        .linkDistance([LINK_DISTANCE])
         .charge([-500])
         .theta(0.1)
         .gravity(0.05)
