@@ -2,47 +2,47 @@
  * Main network graphing script.
  */
 const w = 1280,
-    h = 720,
-    LINK_DISTANCE = 70,
-    LABEL_OFFSET = 15,
-    COLORS = {
-        source: '#08c',
-        target: '#ffa11c',
-    };
+  h = 720,
+  LINK_DISTANCE = 70,
+  LABEL_OFFSET = 15,
+  COLORS = {
+    source: '#08c',
+    target: '#ffa11c',
+  };
 
 /** Handle object movement. **/
 function tick(edges, nodes, nodelabels, edgepaths) {
-    edges.attr({
-        "x1": function (d) {
-            return d.source.x;
-        },
-        "y1": function (d) {
-            return d.source.y;
-        },
-        "x2": function (d) {
-            return d.target.x;
-        },
-        "y2": function (d) {
-            return d.target.y;
-        }
-    });
+  edges.attr({
+    "x1": function (d) {
+      return d.source.x;
+    },
+    "y1": function (d) {
+      return d.source.y;
+    },
+    "x2": function (d) {
+      return d.target.x;
+    },
+    "y2": function (d) {
+      return d.target.y;
+    }
+  });
 
-    nodes.attr({
-        "cx": function (d) {
-            return d.x;
-        },
-        "cy": function (d) {
-            return d.y;
-        }
-    });
+  nodes.attr({
+    "cx": function (d) {
+      return d.x;
+    },
+    "cy": function (d) {
+      return d.y;
+    }
+  });
 
-    nodelabels.attr("x", d => d.x + LABEL_OFFSET)
-        .attr("y", d => d.y);
+  nodelabels.attr("x", d => d.x + LABEL_OFFSET)
+    .attr("y", d => d.y);
 
-    edgepaths.attr('d', function (d) {
-        var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-        return path;
-    });
+  edgepaths.attr('d', function (d) {
+    var path = 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
+    return path;
+  });
 }
 
 
@@ -72,78 +72,78 @@ function tick(edges, nodes, nodelabels, edgepaths) {
  *     e.g. people and places.
  */
 function draw(dataset, twoColor = false) {
-    var svg = d3.select("body").append("svg");
-    svg.attr({
-        "width": w,
-        "height": h,
+  var svg = d3.select("body").append("svg");
+  svg.attr({
+    "width": w,
+    "height": h,
+  });
+
+  var force = d3.layout.force()
+    .nodes(dataset.nodes)
+    .links(dataset.edges)
+    .size([w, h])
+    .linkDistance([LINK_DISTANCE])
+    .charge([-500])
+    .theta(0.1)
+    .gravity(0.05)
+    .start();
+
+  var edges = svg.selectAll("line")
+    .data(dataset.edges)
+    .enter()
+    .append("line")
+    .attr("id", function (d, i) {
+      return 'edge' + i;
+    })
+    .attr('marker-end', 'url(#arrowhead)')
+    .style("stroke", "#ccc")
+    .style("pointer-events", "none");
+
+  var nodes = svg.selectAll("circle")
+    .data(dataset.nodes)
+    .enter()
+    .append("circle")
+    .call(force.drag)
+    .attr("r", 8)
+    .style("fill", COLORS.source);
+  if (twoColor) {
+    nodes.filter(n => n.type === 'target')
+      .style("fill", COLORS.target);
+  }
+
+  var nodelabels = svg.selectAll(".nodelabel")
+    .data(dataset.nodes)
+    .enter()
+    .append("text")
+    .text(function (d) {
+      return d.name;
     });
 
-    var force = d3.layout.force()
-        .nodes(dataset.nodes)
-        .links(dataset.edges)
-        .size([w, h])
-        .linkDistance([LINK_DISTANCE])
-        .charge([-500])
-        .theta(0.1)
-        .gravity(0.05)
-        .start();
+  var edgepaths = svg.selectAll(".edgepath")
+    .data(dataset.edges)
+    .enter()
+    .append('path')
+    .style("pointer-events", "none");
 
-    var edges = svg.selectAll("line")
-        .data(dataset.edges)
-        .enter()
-        .append("line")
-        .attr("id", function (d, i) {
-            return 'edge' + i;
-        })
-        .attr('marker-end', 'url(#arrowhead)')
-        .style("stroke", "#ccc")
-        .style("pointer-events", "none");
+  var arrowProperties = {
+    'id': 'arrowhead',
+    'viewBox': '-0 -5 10 10',
+    'refX': 17,
+    'refY': 0,
+    'orient': 'auto',
+    'markerWidth': 10,
+    'markerHeight': 10,
+    'xoverflow': 'visible',
+  };
 
-    var nodes = svg.selectAll("circle")
-        .data(dataset.nodes)
-        .enter()
-        .append("circle")
-        .call(force.drag)
-        .attr("r", 8)
-        .style("fill", COLORS.source);
-    if (twoColor) {
-        nodes.filter(n => n.type === 'target')
-            .style("fill", COLORS.target);
-    }
+  svg.append('defs').append('marker')
+    .attr(arrowProperties)
+    .append('svg:path')
+    .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+    .attr('fill', '#ccc')
+    .attr('stroke', '#ccc');
 
-    var nodelabels = svg.selectAll(".nodelabel")
-        .data(dataset.nodes)
-        .enter()
-        .append("text")
-        .text(function (d) {
-            return d.name;
-        });
-
-    var edgepaths = svg.selectAll(".edgepath")
-        .data(dataset.edges)
-        .enter()
-        .append('path')
-        .style("pointer-events", "none");
-
-    var arrowProperties = {
-        'id': 'arrowhead',
-        'viewBox': '-0 -5 10 10',
-        'refX': 17,
-        'refY': 0,
-        'orient': 'auto',
-        'markerWidth': 10,
-        'markerHeight': 10,
-        'xoverflow': 'visible',
-    };
-
-    svg.append('defs').append('marker')
-        .attr(arrowProperties)
-        .append('svg:path')
-        .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-        .attr('fill', '#ccc')
-        .attr('stroke', '#ccc');
-
-    force.on("tick", () => tick(edges, nodes, nodelabels, edgepaths));
+  force.on("tick", () => tick(edges, nodes, nodelabels, edgepaths));
 }
 
 
@@ -159,29 +159,29 @@ function draw(dataset, twoColor = false) {
  * value as the name taken from a link source and target.
  */
 function toNodes(links) {
-    var nodes = {};
+  var nodes = {};
 
-    /**
-     * Get a node value by name if set, otherwise set it.
-     *
-     * Note that type will be set initially and if the later type is different it will be ignored.
-     * So nodes which appear in both columns will have an unreliable type, which is fine for
-     * a single color graph of one type of node (e.g. person) but not a two color graph (e.g. person
-     * and message).
-     */
-    function getOrSetNode(name, type) {
-        return nodes[name] || (nodes[name] = {
-            name: name,
-            type: type,
-        });
-    }
-
-    links.forEach(link => {
-        link.source = getOrSetNode(link.source, 'source');
-        link.target = getOrSetNode(link.target, 'target');
+  /**
+   * Get a node value by name if set, otherwise set it.
+   *
+   * Note that type will be set initially and if the later type is different it will be ignored.
+   * So nodes which appear in both columns will have an unreliable type, which is fine for
+   * a single color graph of one type of node (e.g. person) but not a two color graph (e.g. person
+   * and message).
+   */
+  function getOrSetNode(name, type) {
+    return nodes[name] || (nodes[name] = {
+      name: name,
+      type: type,
     });
+  }
 
-    return d3.values(nodes);
+  links.forEach(link => {
+    link.source = getOrSetNode(link.source, 'source');
+    link.target = getOrSetNode(link.target, 'target');
+  });
+
+  return d3.values(nodes);
 }
 
 
@@ -198,17 +198,17 @@ function toNodes(links) {
  *          target
  */
 function csv(filePath) {
-    return new Promise(resolve => {
-        d3.csv(filePath, (error, links) => {
-            if (error)
-                throw error;
+  return new Promise(resolve => {
+    d3.csv(filePath, (error, links) => {
+      if (error)
+        throw error;
 
-            var nodes = toNodes(links);
-            var dataset = {
-                nodes: nodes,
-                edges: links
-            };
-            resolve(dataset);
-        })
-    });
+      var nodes = toNodes(links);
+      var dataset = {
+        nodes: nodes,
+        edges: links
+      };
+      resolve(dataset);
+    })
+  });
 }
