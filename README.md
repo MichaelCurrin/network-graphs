@@ -1,9 +1,13 @@
-# Network graphs
+# Network Graphs
 > D3 wrapper for visualizing CSV data as a network graph
 
 Create an animated network graph in the browser, consisting of nodes with connecting arrows, text labels and color. The nodes are force-directed i.e. they respond to clicking and dragging mouse actions.
 
+<div align="center">
+  
 [![Github Pages site](https://img.shields.io/badge/site-Github%20Pages-blue?style=for-the-badge)](https://michaelcurrin.github.io/network-graphs/)
+
+</div>
 
 
 ## Purpose
@@ -15,15 +19,11 @@ The reason I made it is that I have a couple of personal projects which have dat
 
 ## Deploy to remote environment
 
-Fork project.
-
-Go to Settings of the repo.
-
-Setup on _Github Pages_ using `master` and project root.
-
-Wait for your build to complete in the Environment tab on the repo main page. 
-
-Then click View Deployment.
+1. Fork project.
+2. Go to Settings of the repo.
+3. Setup on _Github Pages_ using `master` and project root.
+4. Wait for your build to complete in the Environment tab on the repo main page. 
+5. Then click View Deployment to find your URL.
 
 
 ## Run locally
@@ -41,7 +41,7 @@ Start a server in the root of the project.
 If you have Python 3 installed, that's a good choice. Here's a shortcut, using [Makefile](/Makefile).
 
 ```sh
-make serve
+$ make serve
 ```
 
 
